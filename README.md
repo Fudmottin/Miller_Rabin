@@ -1,6 +1,4 @@
 # Miller_Rabin
-An implementation of the Miller-Rabin primality test in C++ using Boost libraries
-# Miller_Rabin
 
 This repository contains a C++ implementation of the Miller-Rabin primality test, leveraging the Boost libraries for extended precision arithmetic and random number generation. The Miller-Rabin test is a probabilistic test to determine if a number is a prime. It's an efficient algorithm suitable for large numbers, especially when used in cryptographic applications.
 
