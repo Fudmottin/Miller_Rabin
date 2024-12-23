@@ -1,13 +1,8 @@
 #include "miller_rabin.hpp"
-#include <random>
-#include <boost/multiprecision/cpp_int.hpp>
 #include <boost/random.hpp>
-
-using namespace boost::multiprecision;
+#include <boost/random/random_device.hpp>
 
 namespace fudmottin {
-
-    const int MILLERRABINITERATIONS = 40;
 
     cpp_int powMod(cpp_int base, cpp_int exp, const cpp_int& mod) {
         cpp_int result = 1;
@@ -22,24 +17,29 @@ namespace fudmottin {
         return result;
     }
 
-    bool millerRabinTest(const cpp_int& n) {
-        if (n <= 1 || n == 4) return false;
-        if (n <= 5) return true;
+    bool millerRabinTest(const cpp_int& n, int iterations) {
+        if (n == 2 || n == 3) return true;
+        if (n <= 1 || n % 2 == 0) return false;
 
         cpp_int d = n - 1;
         while ((d & 1) == 0) {
             d >>= 1;
         }
 
-        boost::random::mt19937_64 rng(std::random_device{}());
-        for (int i = 0; i < MILLERRABINITERATIONS; i++) {
-            cpp_int a = boost::random::uniform_int_distribution<cpp_int>(2, n - 2)(rng);
+        boost::random::random_device rd;
+        boost::random::mt19937 rng(rd());
+        boost::random::uniform_int_distribution<cpp_int> dist(2, n - 2);
+
+        for (int i = 0; i < iterations; i++) {
+            cpp_int a = dist(rng);
             cpp_int x = powMod(a, d, n);
             if (x == 1 || x == n - 1) continue;
 
             bool isPrime = false;
-            for (cpp_int r = 1; r < d; r *= 2) {
+            cpp_int temp_d = d;
+            while (temp_d != n - 1) {
                 x = powMod(x, 2, n);
+                temp_d <<= 1; // temp_d *= 2
                 if (x == 1) return false;
                 if (x == n - 1) {
                     isPrime = true;
