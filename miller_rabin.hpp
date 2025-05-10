@@ -1,6 +1,7 @@
 #ifndef MILLER_RABIN_HPP
 #define MILLER_RABIN_HPP
 
+#include <boost/random.hpp>
 #include <boost/multiprecision/cpp_int.hpp>
 
 namespace fudmottin {
@@ -23,6 +24,7 @@ namespace fudmottin {
      * @return True if n is probably prime, false otherwise.
      */
     bool millerRabinTest(const cpp_int& n, int iterations = MILLERRABINITERATIONS);
+    bool millerRabinTest(const cpp_int& n, int iterations, boost::random::mt19937& rng);
 
 } // namespace fudmottin
 
