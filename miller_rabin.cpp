@@ -21,7 +21,7 @@ namespace fudmottin {
         boost::random::random_device rd;
         boost::random::mt19937 rng(rd());
         
-        return millerRabinTest(const cpp_int& n, int iterations, boost::random::mt19937& rng);;
+        return millerRabinTest(n, iterations, rng);
     }
 
     bool millerRabinTest(const cpp_int& n, int iterations, boost::random::mt19937& rng) {
